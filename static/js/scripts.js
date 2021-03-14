@@ -1,6 +1,6 @@
 document.getElementById('btnGetFinal').addEventListener('click', getFinalFunc)
 const responseBox = document.getElementById('response-box')
-const calculatorUrl = "http://localhost:8080/calculate"
+const calculatorUrl = "https://fathomless-plateau-76295.herokuapp.com/calculate"
 
 async function getFinalFunc() {
     const averageMark = document.getElementById('averageMark').value
