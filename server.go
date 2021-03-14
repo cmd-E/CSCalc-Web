@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"html/template"
 	"io/ioutil"
 	"log"
@@ -27,8 +28,9 @@ func index(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Access-Control-Allow-Origin", "*")
 	err := tools.Templates.ExecuteTemplate(w, "index.html", nil)
 	if err != nil {
-		log.Fatal("main.go tools.Templates.ExecuteTemplate error: " + err.Error())
-		// tools.ExecuteError(w, http.StatusInternalServerError, "Internal server error. Template error")
+		fmt.Fprintf(w, "main.go tools.Templates.ExecuteTemplate error: %s", err.Error())
+		w.WriteHeader(http.StatusInternalServerError)
+		return
 	}
 }
 
@@ -38,7 +40,6 @@ type data struct {
 }
 
 func calculate(w http.ResponseWriter, r *http.Request) {
-	log.Println("/calculate accessed")
 	w.Header().Add("Access-Control-Allow-Origin", "*")
 	if r.Method != http.MethodPost {
 		http.Redirect(w, r, "/", http.StatusSeeOther)
@@ -46,33 +47,19 @@ func calculate(w http.ResponseWriter, r *http.Request) {
 	}
 	requestBody, err := ioutil.ReadAll(r.Body)
 	if err != nil {
-		log.Fatalf("server.go, sendScore. Error occured: %v", err.Error())
+		fmt.Fprintf(w, "Error occurred while reading data: %s", err.Error())
+		w.WriteHeader(http.StatusInternalServerError)
+		return
 	}
 	log.Println(string(requestBody))
 
 	d := data{}
 	err = json.Unmarshal(requestBody, &d)
-	log.Println(d)
 	if err != nil {
-		//TODO: handle error
-		log.Println(err.Error())
+		fmt.Fprintf(w, "Error occurred while unmarshaling json: %s", err.Error())
+		w.WriteHeader(http.StatusInternalServerError)
+		return
 	}
 	finalMark := calculator.CalculateFinal(d.AverageMark, d.ExamMark)
 	json.NewEncoder(w).Encode(finalMark)
-	// averageMark := r.FormValue("averageMark")
-	// var amInt int
-	// examMark := r.FormValue("examMark")
-	// var emInt int
-	// if tempAmInt, err := strconv.Atoi(averageMark); err != nil {
-	// 	// TODO: Execute error
-	// } else {
-	// 	amInt = tempAmInt
-	// }
-	// if tempEmInt, err := strconv.Atoi(examMark); err != nil {
-	// 	// TODO: Execute error
-	// } else {
-	// 	emInt = tempEmInt
-	// }
-	// finalMark := calculator.CalculateFinal(amInt, emInt)
-	// json.NewEncoder(w).Encode(finalMark)
 }
