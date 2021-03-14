@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/cmd-e/cscalc-web/calculator"
 	"github.com/cmd-e/cscalc-web/tools"
@@ -19,9 +20,12 @@ func init() {
 func main() {
 	http.HandleFunc("/", index)
 	http.HandleFunc("/calculate", calculate)
-	log.Println("Listening at :8080...")
-	http.Handle("/js/", http.StripPrefix("/js/", http.FileServer(http.Dir("./static/js")))) // handles css folder
-	http.ListenAndServe(":8080", nil)
+	http.Handle("/js/", http.StripPrefix("/js/", http.FileServer(http.Dir("./static/js"))))
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+	log.Println(http.ListenAndServe(":"+port, nil))
 }
 
 func index(w http.ResponseWriter, r *http.Request) {
