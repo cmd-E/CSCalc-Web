@@ -21,10 +21,13 @@ async function getFinalFunc() {
 			}, 
 			body: JSON.stringify(data)
         }).then(response => response.json()).then(data => {
+            responseBox.classList.remove('bg-success')
+            responseBox.classList.remove('bg-warning')
+            responseBox.classList.remove('bg-danger')
             const finalMark = parseFloat(data)
                 if (finalMark >= 70.0 && finalMark <= 100.0) {
                     responseBox.classList.add("bg-success")
-                } else if (finalMark >= 50.0 && finalMark <= 69.0) {
+                } else if (finalMark >= 50.0 && finalMark < 70.0) {
                     responseBox.classList.add("bg-warning")
                 }else {
                     responseBox.classList.add("bg-danger")
