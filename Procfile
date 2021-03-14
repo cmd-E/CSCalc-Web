@@ -1,1 +1,1 @@
-web: ./cscalc-web
+web: sh -c 'exec cscalc-web'
