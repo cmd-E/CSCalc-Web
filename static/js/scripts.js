@@ -1,8 +1,8 @@
 document.getElementById('btnGetFinal').addEventListener('click', getFinalFunc)
+const responseBox = document.getElementById('response-box')
+const calculatorUrl = "http://localhost:8080/calculate"
 
 async function getFinalFunc() {
-    console.log('click')
-    const calculatorUrl = "http://localhost:8080/calculate"
     const averageMark = document.getElementById('averageMark').value
     const examMark = document.getElementById('examMark').value
     const data = {
@@ -16,5 +16,5 @@ async function getFinalFunc() {
         		'Content-Type': 'application/json'
 			}, 
 			body: JSON.stringify(data)
-        }).then(response => response.json()).then(data => console.log(data));
+        }).then(response => response.json()).then(data => responseBox.innerText = data);
 }
