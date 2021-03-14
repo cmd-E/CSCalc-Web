@@ -9,10 +9,30 @@
     <title>CSCalc-Web</title>
 </head>
 <body>
-    <input id="averageMark" name="averageMark" type="number" max="100" min="0" placeholder="Средний балл" required/>
-    <input id="examMark" name="examMark" type="number"  max="100" min="0" placeholder="Оценка за экзамен" required/>
-    <input id="btnGetFinal" type="button" name="btnGetFinal"/>
-    <div  id="response-box" name="response-box"></div>
+    <div class="container position-absolute top-50 start-50 translate-middle">
+        <div class="row justify-content-center">
+            <div class="col-auto">
+                <h1>Калькулятор итогового балла</h1>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-auto">
+                <div>
+                    <input id="averageMark" name="averageMark" type="number" max="100" min="0" placeholder="Текущий балл" required/>
+                </div>
+                <div>
+                    <input id="examMark" name="examMark" type="number"  max="100" min="0" placeholder="Оценка за экзамен" required/>
+                </div>
+            </div>
+        </div>
+        <br/>
+        <div class="row justify-content-center">
+            <div class="col-auto">
+                <input id="btnGetFinal" type="button" class="btn btn-success" name="btnGetFinal" value="Посчитать"/>
+            </div>
+        </div>
+        <div id="response-box" class="row justify-content-center"></div>
+    </div>
     <script src="../js/scripts.js"></script>
 </body>
 </html>
