@@ -21,8 +21,7 @@ async function getFinalFunc() {
         averageMark,
         examMark
     }
-    // const calculatorUrl = "https://fathomless-plateau-76295.herokuapp.com/calculate"
-    const calculatorUrl = "http://localhost:8080/calculate"
+    const calculatorUrl = `${window.location.href}calculate`
     await fetch(calculatorUrl, 
         {
             method: 'POST',

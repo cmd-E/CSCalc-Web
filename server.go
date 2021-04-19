@@ -44,7 +44,6 @@ type data struct {
 	ExamMark    float32 `json:"examMark"`
 }
 
-// test for automatic deploy
 type responseData struct {
 	FinalMark float32 `json:"finalMark"`
 }
