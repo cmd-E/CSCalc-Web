@@ -22,6 +22,8 @@ func main() {
 	http.HandleFunc("/calculate", calculate)
 	http.Handle("/js/", http.StripPrefix("/js/", http.FileServer(http.Dir("./static/js"))))
 	http.Handle("/css/", http.StripPrefix("/css/", http.FileServer(http.Dir("./static/css"))))
+	http.Handle("/images/", http.StripPrefix("/images/", http.FileServer(http.Dir("./static/images"))))
+
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8080"
