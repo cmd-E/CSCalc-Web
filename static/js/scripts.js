@@ -31,15 +31,14 @@ async function getFinalFunc() {
 			}, 
 			body: JSON.stringify(data)
         })
-        .then(response => response.json())
-        .catch(err => console.log(`Error occured: ${err}`))
-        .then((data) => {
-            if (data.isError) {
-                displayError(data)
+        .then(response => {
+            if (response.status === 400) {
+                response.json().then(data => displayError(data))
                 throw new Error("Do not proceed!")
             }
-            processData(data)
+            response.json().then(data => processData(data))
         })
+        .catch(err => console.log(`Error occured: ${err}`))
 }
 
 function displayError(data) {
