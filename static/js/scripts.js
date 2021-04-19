@@ -2,7 +2,7 @@ document.getElementById('btnGetFinal').addEventListener('click', getFinalFunc)
 
 
 async function getFinalFunc() {
-    clearStylesFromResponseBox()
+    clearResponseBox()
     const averageMark = parseFloat(document.getElementById('averageMark').value.trim())
     const examMark = parseFloat(document.getElementById('examMark').value.trim())
     if (!averageMark && averageMark !== 0 || !examMark && examMark !== 0) {
@@ -64,8 +64,9 @@ function processData(data) {
     responseBox.innerText = finalMark
 }
 
-function clearStylesFromResponseBox() {
+function clearResponseBox() {
     const responseBox = document.getElementById('response-box')
+    responseBox.innerText = ""
     responseBox.classList.remove('bg-success')
     responseBox.classList.remove('bg-warning')
     responseBox.classList.remove('bg-danger')
