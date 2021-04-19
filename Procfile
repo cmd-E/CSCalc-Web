@@ -1,0 +1,1 @@
+web: sh -c 'exec cscalc-web'

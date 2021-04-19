@@ -25,7 +25,8 @@ func main() {
 	if port == "" {
 		port = "8080"
 	}
-	log.Println(http.ListenAndServe(":"+port, nil))
+	log.Printf("Port: %s", port)
+	log.Fatal(http.ListenAndServe(":"+port, nil))
 }
 
 func index(w http.ResponseWriter, r *http.Request) {
@@ -39,12 +40,22 @@ func index(w http.ResponseWriter, r *http.Request) {
 }
 
 type data struct {
-	AverageMark int `json:"averageMark,string"`
-	ExamMark    int `json:"examMark,string"`
+	AverageMark float32 `json:"averageMark"`
+	ExamMark    float32 `json:"examMark"`
+}
+
+type responseData struct {
+	FinalMark float32 `json:"finalMark"`
 }
 
 func calculate(w http.ResponseWriter, r *http.Request) {
+	w.Header().Add("Access-Control-Allow-Headers", "Content-Type, Origin, Accept, token")
 	w.Header().Add("Access-Control-Allow-Origin", "*")
+	w.Header().Add("Access-Control-Allow-Methods", "GET, POST,OPTIONS")
+	if r.Method == http.MethodOptions {
+		w.WriteHeader(http.StatusOK)
+		return
+	}
 	if r.Method != http.MethodPost {
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 		return
@@ -55,8 +66,6 @@ func calculate(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-	log.Println(string(requestBody))
-
 	d := data{}
 	err = json.Unmarshal(requestBody, &d)
 	if err != nil {
@@ -64,6 +73,13 @@ func calculate(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-	finalMark := calculator.CalculateFinal(d.AverageMark, d.ExamMark)
-	json.NewEncoder(w).Encode(finalMark)
+	w.Header().Set("Content-Type", "application/json")
+	var errStruct tools.ErrStruct
+	if errStruct = tools.MarksAreValid(d.AverageMark, d.ExamMark); errStruct.IsError {
+		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w).Encode(errStruct)
+		return
+	}
+	fm := responseData{FinalMark: calculator.CalculateFinal(d.AverageMark, d.ExamMark)}
+	json.NewEncoder(w).Encode(fm)
 }
