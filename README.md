@@ -1,7 +1,8 @@
 # CSCalc-Web
 Приложение, предназначенное для вычисления финальной оценки из среднего текущего балла и предположительной оценки на экзамене
 
-![image](https://user-images.githubusercontent.com/49339376/111073930-fdd9ab00-850a-11eb-97a7-20e5bf5522e4.png)
+![image](https://user-images.githubusercontent.com/49339376/115197014-5efc2c00-a112-11eb-849a-0960a40a3020.png)
+
 
 ## Пример использования
-![image](https://user-images.githubusercontent.com/49339376/111073919-eac6db00-850a-11eb-8a40-513dc5760c37.png)
+![image](https://user-images.githubusercontent.com/49339376/115197087-6faca200-a112-11eb-973a-f66dd7619803.png)
