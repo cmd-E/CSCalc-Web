@@ -2,6 +2,10 @@ h1 {
     text-align: center;
 }
 
+input {
+    margin: 5px;
+}
+
 footer {
     padding: 4rem;
     position: absolute;
